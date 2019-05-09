@@ -1,0 +1,96 @@
+import os
+import random
+
+
+WORDS_LIST = ["again", "about", "among", "angle", "apple", "awake"]
+WORDS_LIST2 = ["I don't know"]
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def replay():
+    while True:
+            play = input("\nShall we play again? (Y/N): ").upper()
+            if play == 'Y':
+                start_game()
+                break
+            elif play == 'N':
+                print("Alright, bye now!")
+                break
+            else:
+                print("That's not a valid option. Please Try again.\n")
+        
+    
+def start_game():
+    WORDS_LIST = ["again", "about", "among", "angle", "apple", "awake"]
+    WORDS_LIST2 = ["i do not know"]
+    guess_box = []
+    guess_storage = []
+    list1 = []
+    player_lives = 5
+
+    ANSWER = list(random.choice(WORDS_LIST2))
+
+    for char in ANSWER:
+        if (char.isalpha()):
+            list1.append(char).lower()
+        else:
+            list1.append("")
+
+    for char in list1:
+        if char == "":
+            guess_box.append(" ")
+        else:
+            guess_box.append("_")
+            
+    while True:
+        if not "_" in guess_box:
+            print(' '.join(guess_box))
+            print("\nKudos! You WON!")
+            replay()
+            break
+        elif player_lives > 0:
+            print("\nYou have {} out of 5 lives remaining!\n".format(player_lives))
+            print(' '.join(guess_box))
+            player_choice = input("\nguess a letter: ").lower()
+            
+            if player_choice in guess_storage:
+                print("You've tried that letter. Please use other letters.")
+            elif player_choice in ANSWER:
+                print("Nice! You've got it. Keep em coming!")
+                guess_storage.append(player_choice)
+                for item in range(0, len(ANSWER)):
+                    if ANSWER[item] == player_choice:
+                        guess_box[item] = player_choice
+                
+            elif not (player_choice.isalpha()):
+                print("Oops! That's not a letter. Try again.\n")
+            else:
+                print("WRONG!\n")
+                guess_storage.append(player_choice)
+                player_lives -= 1
+        else:
+            print("Game Over! The answer is '{}'. Better luck next time!".format(''.join(ANSWER).upper()))
+            replay()
+            break
+
+
+def welcome():
+    print("-"*31)
+    print(" "*7, "PHRASE HUNTER")
+    print("-"*31)
+    print("Welcome to Phrase Hunter game")
+    print("The rule is pretty simple. Just Guess!\n")
+    while True:
+        play = input("Shall we play? (Y/N): ").upper()
+        if play == 'Y':
+            start_game()
+            break
+        elif play == 'N':
+            print("Alright, bye now!")
+            break
+        else:
+            print("That's not a valid option. Please Try again.\n")
+        
+welcome()
