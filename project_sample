@@ -33,7 +33,7 @@ def start_game():
     player_lives = 5
 
     while True:
-        if not "_" in guess_box:
+        if "_" not in guess_box:
             print("")
             print(' '.join(guess_box))
             print("\nKudos! You WON!")
