@@ -34,7 +34,7 @@ def start_game():
 
     for char in ANSWER:
         if (char.isalpha()):
-            list1.append(char).lower()
+            list1.append(char)
         else:
             list1.append("")
 
