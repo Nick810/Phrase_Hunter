@@ -2,17 +2,20 @@ import os
 import random
 
 
+y_valid = {"yes": "yes", "y": "yes"}
+n_valid = {"no": "no", "n": "no"}
+
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def replay():
     while True:
-            play = input("Would you like to play again? (Y/N): ").upper()
-            if play == 'Y':
+            play = input("Would you like to play again? (Y/N): ").lower()
+            if play in y_valid.keys():
                 start_game()
                 break
-            elif play == 'N':
+            elif play in n_valid.keys():
                 print("\nThanks for playing, bye now!")
                 break
             else:
@@ -36,7 +39,7 @@ def start_game():
         if "_" not in guess_box:
             print("")
             print(' '.join(guess_box))
-            print("\nKudos! You WON!")
+            print("\nKUDOS! You WON!")
             replay()
             break
         elif player_lives > 0:
@@ -44,27 +47,27 @@ def start_game():
             print(' '.join(guess_box))
             player_choice = input("\nguess a letter: ").lower()
 
-            if player_choice in guessed_letters:
-                print("You've tried that letter. Please use other letters.")
+            if not (player_choice.isalpha()):
+                print("Oops! That's not a letter. Try again.\n")
             elif len(player_choice) > 1:
-                print("That's more than a letter! try again.")
+                print("That's more than a letter! Try again.")
+            elif player_choice in guessed_letters:
+                print("You've used that letter!.")
             elif player_choice in secret_letters:
                 print("Nice! You've got it. Keep em coming!")
                 guessed_letters.add(player_choice)
                 for index, value in enumerate(answer):
                     if value.lower() == player_choice:
                         guess_box[index] = value
-                # for item in range(0, len(ANSWER)):
-                 #   if ANSWER[item] == player_choice:
-                  #      guess_box[item] = player_choice
-            elif not (player_choice.isalpha()):
-                print("Oops! That's not a letter. Try again.\n")
+#  for item in range(0, len(ANSWER)):
+#  if ANSWER[item] == player_choice:
+#  guess_box[item] = player_choice
             else:
                 print("Sorry, That's a MISS!\n")
                 guessed_letters.add(player_choice)
                 player_lives -= 1
         else:
-            print("Game Over! The answer is '{}'. Better luck next time!".format(''.join(answer).upper()))
+            print("GAME OVER. The answer is '{}'. Better luck next time!".format(''.join(answer).upper()))
             replay()
             break
 
@@ -76,14 +79,16 @@ def welcome():
     print("Welcome to Phrase Hunter game")
     print("The rule is pretty simple. Just Guess!\n")
     while True:
-        play = input("Shall we play? (Y/N): ").upper()
-        if play == 'Y':
+        play = input("Shall we play? (Y/N): ").lower()
+        if play in y_valid.keys():
             start_game()
             break
-        elif play == 'N':
+        elif play in n_valid.keys():
             print("Okay, bye now!")
             break
         else:
             print("That's not a valid option. Please Try again.\n")
 
-welcome()
+
+if __name__ == '__main__':
+    welcome()
