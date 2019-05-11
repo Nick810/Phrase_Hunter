@@ -1,3 +1,4 @@
+# Create your Game class logic in here.
 import random
 import os
 
@@ -6,7 +7,7 @@ from character import Character
 
 PHRASES_LIST = ['Hit the sack', 'Lose your touch', 'Sit tight',
               'Pitch in', 'Go cold turkey', 'Ring a bell',
-              'Break Even', 'Keep your chin up', 'Rule of Thumb',
+              'Break Even', 'Keep your chin up', 'Rule of thumb',
               'A piece of cake']
 
 y_valid = {"yes": "yes", "y": "yes"}
@@ -15,11 +16,12 @@ n_valid = {"no": "no", "n": "no"}
 
 class Game:
     def __init__(self, phrases):
-        self.guessed_letters = set()
+        self.guessed_letters = []
         self.phrase = list(random.choice(phrases))
         self.guess_box = ["_" if char.isalpha() else char for char in self.phrase]
         self.secret_letters = {char.lower() for char in self.phrase if char.isalpha()}
         self.players_lives = 5
+        self.reset
 
     def clear_screen(self):
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -46,7 +48,13 @@ class Game:
             self.clear_screen()
             
             #self.display_phrase()
-            if self.players_lives == 0:
+            if "_" not in self.guess_box:
+                print("")
+                print(' '.join(self.guess_box))
+                print("\nKUDOS! You WON!")
+                self.replay()
+                break
+            elif self.players_lives == 0:
                 print("GAME OVER. The answer is '{}'. Better luck next time!".format(''.join(self.phrase).upper()))
                 self.replay()
                 break
@@ -60,9 +68,9 @@ class Game:
                     print("That's more than a letter! Try again.")
                 elif player_choice in self.guessed_letters:
                     print("You've used that letter!.")
-                elif player_choice in self.secret_letters:# self.secret_letters:
+                elif player_choice in self.secret_letters:
                     print("Nice! You've got it. Keep em coming!")
-                    self.guessed_letters.add(player_choice)
+                    self.guessed_letters.append(player_choice)
                     for index, value in enumerate(self.phrase):
                         if value.lower() == player_choice:
                             self.guess_box[index] = value
@@ -73,17 +81,31 @@ class Game:
 
     def replay(self):
         while True:
-                play = input("Would you like to play again? (Yes/No): ").lower()
-                if play in y_valid.keys():
-                    self.main_game()
-                    break
-                elif play in n_valid.keys():
-                    print("\nThanks for playing, bye now!")
-                    break
-                else:
-                    print("That's not a valid option. Please Try again.\n")
+            play = input("Would you like to play again? (Yes/No): ").lower()
+            if play in y_valid.keys():
+                self.clear_guess_box()
+                self.clear_guessed_letter()
+                self.reset()
+                self.main_game()
+                break
+            elif play in n_valid.keys():
+                print("\nThanks for playing, bye now!")
+                break
+            else:
+                print("That's not a valid option. Please Try again.\n")
 
+    def clear_guess_box(self):
+        for index, item in enumerate(self.guess_box):
+            if (item.isalpha()):
+                self.guess_box[index] = "_"
+        return self.guess_box
 
+    def reset(self):
+        del self.guessed_letters[:]
+        self.guessed_letters = []
+        self.players_lives = 5
+
+#  Testing game
 if __name__ == '__main__':
-    run = Game(WORDS_LIST)
+    run = Game(PHRASES_LIST)
     run.welcome()
