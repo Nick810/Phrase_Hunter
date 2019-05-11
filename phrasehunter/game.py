@@ -4,7 +4,7 @@ import os
 from phrase import Phrase
 from character import Character
 
-WORDS_LIST = ['Hit the sack', 'Lose your touch', 'Sit tight',
+PHRASES_LIST = ['Hit the sack', 'Lose your touch', 'Sit tight',
               'Pitch in', 'Go cold turkey', 'Ring a bell',
               'Break Even', 'Keep your chin up', 'Rule of Thumb',
               'A piece of cake']
