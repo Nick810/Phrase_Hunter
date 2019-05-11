@@ -111,8 +111,6 @@ class Game:
     def reset(self):
         self.guessed_letters = []
         self.phrase = list(random.choice(PHRASES_LIST))
-        self.guess_box = ["_" if char.isalpha() else char for char in self.phrase]
-        self.secret_letters = {char.lower() for char in self.phrase if char.isalpha()}
         self.players_lives = 5
         
 if __name__ == '__main__':
