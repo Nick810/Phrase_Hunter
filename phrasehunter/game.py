@@ -35,7 +35,7 @@ class Game:
         while True:
             play = input("Shall we play? (Yes/No): ").lower()
             if play in y_valid.keys():
-                self.main_game()
+                return self.main_game()
                 break
             elif play in n_valid.keys():
                 print("Okay, bye now!")
@@ -52,11 +52,11 @@ class Game:
                 print("")
                 print(' '.join(self.guess_box))
                 print("\nKUDOS! You WON!")
-                self.replay()
+                return self.replay()
                 break
             elif self.players_lives == 0:
                 print("GAME OVER. The answer is '{}'. Better luck next time!".format(''.join(self.phrase).upper()))
-                self.replay()
+                return self.replay()
                 break
             else:
                 print("")
