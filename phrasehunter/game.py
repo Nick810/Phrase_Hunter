@@ -35,7 +35,7 @@ class Game:
         while True:
             play = input("Shall we play? (Yes/No): ").lower()
             if play in y_valid.keys():
-                return self.main_game()
+                self.main_game()
                 break
             elif play in n_valid.keys():
                 print("Okay, bye now!")
@@ -44,19 +44,19 @@ class Game:
                 print("That's not a valid option. Please Try again.\n")
 
     def main_game(self):
+        self.show_lives()
         while True: #...
             self.clear_screen()
-            
             #self.display_phrase()
             if "_" not in self.guess_box:
                 print("")
                 print(' '.join(self.guess_box))
                 print("\nKUDOS! You WON!")
-                return self.replay()
+                self.replay()
                 break
             elif self.players_lives == 0:
-                print("GAME OVER. The answer is '{}'. Better luck next time!".format(''.join(self.phrase).upper()))
-                return self.replay()
+                print("GAME OVER. The phrase is '{}'. Better luck next time!".format(''.join(self.phrase).upper()))
+                self.replay()
                 break
             else:
                 print("")
@@ -75,9 +75,10 @@ class Game:
                         if value.lower() == player_choice:
                             self.guess_box[index] = value
                 else:
-                    print("Sorry, That's a MISS!\n")
-                    self.guessed_letters.add(player_choice)
+                    print("Sorry, That's a MISS!")
+                    self.guessed_letters.append(player_choice)
                     self.players_lives -= 1
+                    self.show_lives()
 
     def replay(self):
         while True:
@@ -100,12 +101,20 @@ class Game:
                 self.guess_box[index] = "_"
         return self.guess_box
 
-    def reset(self):
-        del self.guessed_letters[:]
-        self.guessed_letters = []
-        self.players_lives = 5
+    def show_lives(self):
+        print("\nYou have {} out of 5 remainining lives\n".format(self.players_lives))
 
-#  Testing game
+    def clear_guessed_letter(self):
+        del self.guessed_letters[:]
+        return self.guessed_letters
+
+    def reset(self):
+        self.guessed_letters = []
+        self.phrase = list(random.choice(PHRASES_LIST))
+        self.guess_box = ["_" if char.isalpha() else char for char in self.phrase]
+        self.secret_letters = {char.lower() for char in self.phrase if char.isalpha()}
+        self.players_lives = 5
+        
 if __name__ == '__main__':
     run = Game(PHRASES_LIST)
     run.welcome()
