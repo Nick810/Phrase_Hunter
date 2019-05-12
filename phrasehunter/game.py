@@ -2,8 +2,8 @@
 import random
 import os
 
-from phrase import Phrase
-from character import Character
+# from phrase import Phrase
+# from character import Character
 
 PHRASES_LIST = ['Hit the sack', 'Lose your touch', 'Sit tight',
               'Pitch in', 'Go cold turkey', 'Ring a bell',
@@ -112,7 +112,3 @@ class Game:
         self.guessed_letters = []
         self.phrase = list(random.choice(PHRASES_LIST))
         self.players_lives = 5
-        
-if __name__ == '__main__':
-    run = Game(PHRASES_LIST)
-    run.welcome()
